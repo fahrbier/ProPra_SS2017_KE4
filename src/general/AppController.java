@@ -118,6 +118,12 @@ public class AppController {
                 "/gens/lsystems/probabilistic/ProbabilisticLindenmayerSystemView.fxml");
     }
     
+    @FXML
+    private void showFunctionTreeGenView() {
+        showSpecializedGenView("Random Function Trees",
+                "/gens/randomfunctiontrees/FunctionTreeGenView.fxml");
+    }
+    
     /**
      * Displays a new view of a specialized Generator.
      * 
