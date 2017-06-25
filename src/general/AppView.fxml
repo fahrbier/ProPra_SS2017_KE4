@@ -37,34 +37,48 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem onAction="#showSimpleAnimationGenView" text="Simple _Animation Generator" />
-              <MenuItem onAction="#showWolframGenView" text="_Wolfram Generator">
+              
+              <MenuItem onAction="#showSimpleAnimationGenView" text="Simple _Animation Generator">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT2" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem onAction="#showGameOfLifeGenView" text="_Game of Life Generator">
+
+
+              <SeparatorMenuItem  />       
+                  
+              <MenuItem onAction="#showWolframGenView" text="_Wolfram Generator">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT3" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem onAction="#showWolframEvolvedGenView" text="Wolfram _Evolved Generator">
+              <MenuItem onAction="#showGameOfLifeGenView" text="_Game of Life Generator">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT4" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem onAction="#showCookieMonsterGenView" text="_Cookie Monster Generator">
+              <MenuItem onAction="#showWolframEvolvedGenView" text="Wolfram _Evolved Generator">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT5" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem onAction="#showLindenmayerGenView" text="_Standard Lindenmayer System">
+              <MenuItem onAction="#showCookieMonsterGenView" text="_Cookie Monster Generator">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT6" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem onAction="#showProbabilisticLindenmayerGenView" text="_Probabilistic Lindenmayer System">
+                     
+              <SeparatorMenuItem  />         
+                     
+              <MenuItem onAction="#showLindenmayerGenView" text="_Standard Lindenmayer System">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT7" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem onAction="#showFunctionTreeGenView" text="_Random Function Tree">
+              <MenuItem onAction="#showProbabilisticLindenmayerGenView" text="_Probabilistic Lindenmayer System">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT8" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                     
+              <SeparatorMenuItem  />         
+                     
+              <MenuItem onAction="#showFunctionTreeGenView" text="_Random Function Tree">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="DIGIT9" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
             </items>
                <accelerator>
