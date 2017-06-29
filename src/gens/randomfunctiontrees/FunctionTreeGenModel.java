@@ -23,11 +23,12 @@
  */
 package gens.randomfunctiontrees;
 
-import gens.basicexample1.*;
 import general.GenModel;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
 
 /**
  *
@@ -81,33 +82,21 @@ public class FunctionTreeGenModel extends GenModel {
 
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, width, height);
+        
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
+                
+                Color c = new Color( 
+                        Math.abs(Math.sin(((double)x/(double)width) * 360)) ,
+                        Math.abs(Math.cos(((double)y/(double)width) * 360)),
+                        1,
+                        1.0);
+                
+                gc.getPixelWriter().setColor(x,y,c);
+            }
+        }
 
         setGenState("Drawing blue circle...");
-        double diameter = Math.min(width, height);
-        gc.setFill(Color.BLUE);
-        // draw a circle in the middle of the canvas
-        gc.fillOval((width-diameter)/2., (height-diameter)/2.,
-                diameter, diameter);
-        
-        // NOTE1: To show the different middle states (they are usually too fast
-        // for the human eye) put the following code snippet before each call
-        // of setGenState(...) inside this method. This simulates a
-        // time-consuming generate process.
-        /*try {
-            Thread.sleep(1000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }*/
-        
-        // NOTE2: If the generate method runs very long, the user may choose to
-        // stop the Thread e.g. by closing the window. If that happens, the
-        // interrupt()-method is called on that Thread. However that does not 
-        // mean that the Thread actually is stopped, only a status bit is set.
-        // To stop the thread, it must check this status bit regularly and then
-        // act on it. This can be done like this:
-        // if(Thread.currentThread().isInterrupted()){return;}
      
     }
 }
