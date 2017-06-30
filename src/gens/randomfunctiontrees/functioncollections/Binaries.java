@@ -23,12 +23,19 @@
  */
 package gens.randomfunctiontrees.functioncollections;
 
+import java.util.function.DoubleConsumer;
+
 /**
  *
  * @author holger
  */
-public class Binaries {
+public class Binaries implements RandomFunction {
     public static double avg(double a, double b) {
         return (a+b)/2;
     } 
+
+    @Override
+    public DoubleConsumer getRandomFunction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

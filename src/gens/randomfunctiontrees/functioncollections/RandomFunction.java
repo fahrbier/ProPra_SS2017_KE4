@@ -30,5 +30,5 @@ import java.util.function.DoubleConsumer;
  * @author holger
  */
 public interface RandomFunction {
-    DoubleConsumer pickRandomFunction();
+    DoubleConsumer getRandomFunction();
 }

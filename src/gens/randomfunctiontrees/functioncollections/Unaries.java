@@ -23,12 +23,19 @@
  */
 package gens.randomfunctiontrees.functioncollections;
 
+import java.util.function.DoubleConsumer;
+
 /**
  *
  * @author holger
  */
-public class Unaries {
+public class Unaries implements RandomFunction{
     public static double sin(double angle) {
         return Math.sin(angle);
     }    
+
+    @Override
+    public DoubleConsumer getRandomFunction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
