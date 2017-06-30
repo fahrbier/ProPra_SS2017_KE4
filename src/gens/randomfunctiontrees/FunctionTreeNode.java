@@ -36,12 +36,14 @@ public class FunctionTreeNode {
     private DoubleConsumer func=null;
     
     private FunctionTreeNode parent = null;
-    private List<FunctionTreeNode> children = new ArrayList<FunctionTreeNode>();
+    private List<FunctionTreeNode> children = new ArrayList<>();
  
     public void FunctionTreeNode() {
     
     }
     
-    
+    public Boolean isLeaf() {
+        return children.isEmpty();
+    }
     
 }
