@@ -24,6 +24,9 @@
 package gens.randomfunctiontrees;
 
 import general.GenModel;
+import gens.randomfunctiontrees.functioncollections.Unaries;
+import java.io.PrintStream;
+import java.util.function.DoubleConsumer;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -83,12 +86,28 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
+        
+        DoubleConsumer fsin = Unaries::sin;
+        //System.out.print(fsin.accept(12.5));
+                
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
                 
                 Color c = new Color( 
-                        Math.abs(Math.sin(((double)x/(double)width) * 360)) ,
-                        Math.abs(Math.cos(((double)y/(double)width) * 360)),
+                        Math.abs(
+                            Math.sin(
+                                Math.toRadians(
+                                    ((double)x/(double)width) * 360
+                                )        
+                            )
+                        ) ,
+                        Math.abs(
+                            Math.cos(
+                                Math.toRadians(
+                                    ((double)x/(double)height) * 360
+                                )        
+                            )
+                        ) ,
                         1,
                         1.0);
                 
