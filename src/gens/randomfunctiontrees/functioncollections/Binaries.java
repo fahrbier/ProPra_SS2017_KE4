@@ -23,19 +23,51 @@
  */
 package gens.randomfunctiontrees.functioncollections;
 
-import java.util.function.DoubleConsumer;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Random;
+
 
 /**
  *
  * @author holger
  */
-public class Binaries implements RandomFunction {
+public class Binaries {
     public static double avg(double a, double b) {
         return (a+b)/2;
     } 
 
-    @Override
-    public DoubleConsumer getRandomFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   
+    public static String getRandomFunctionName(Random rand) {
+        /**
+         * Using reflection to find out all methods of this collection here.
+         * This convenience function getRandomFunction() is of course also
+         * in the list of the "reflected" methods. And since this function
+         * is useless for the function tree, let's filter it out from the
+         * pool of functions from which we pick one at random
+         */
+        
+        Method methlist[];
+        methlist = Binaries.class.getDeclaredMethods();
+        ArrayList<String> filteredMethlist = new ArrayList<>();
+        for (int i=0; i<methlist.length; i++) {
+            if ( ! "getRandomFunctionName".equals(methlist[i].getName())) {
+                filteredMethlist.add(methlist[i].getName());
+            }
+        }
+        
+        /**
+         * Determine a random number in the boundaries Min-Max
+         * using the pattern
+         * Min + (int)(Math.random() * ((Max - Min) + 1))
+         * inspired by https://stackoverflow.com/questions/363681
+        */
+        
+        int min = 0;
+        int max = filteredMethlist.size()-1;
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+           
+        return "Binaries::" + filteredMethlist.get(randomNum);
     }
 }
