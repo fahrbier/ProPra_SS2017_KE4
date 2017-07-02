@@ -39,7 +39,7 @@ public class FunctionTreeGenController extends GenController {
     @FXML private TextField textFieldWidth;  
     @FXML private TextField textFieldHeight;
     
-    SimpleGenModel model;
+    FunctionTreeGenModel model;
 
     
     @Override
@@ -60,7 +60,7 @@ public class FunctionTreeGenController extends GenController {
     public void initialize() {
         super.initialize(); // activate buttonGenerate on Enter
         
-        model = new SimpleGenModel();
+        model = new FunctionTreeGenModel();
         
         // display values from model
         textFieldWidth.textProperty().setValue(

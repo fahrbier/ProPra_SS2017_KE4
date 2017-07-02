@@ -24,8 +24,10 @@
 package gens.randomfunctiontrees;
 
 import general.GenModel;
+import gens.randomfunctiontrees.functioncollections.Binaries;
 import gens.randomfunctiontrees.functioncollections.Unaries;
 import java.io.PrintStream;
+import java.util.Random;
 import java.util.function.DoubleConsumer;
 
 import javafx.scene.canvas.Canvas;
@@ -41,11 +43,14 @@ public class FunctionTreeGenModel extends GenModel {
 
     @Override
     public String getGenName() {
-        return "Simple Generator";
+        return "Randon Function Tree Generator";
     }
    
+    private Random rand;
+    
     private int width; 
     private int height;
+    
     
     
     public FunctionTreeGenModel() {
@@ -86,9 +91,14 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
+        rand = new Random(76565);
+        //System.out.println(Unaries.getRandomFunctionName(rand));
+       // System.out.println(Unaries.getRandomFunctionName(rand));
+       // System.out.println(Binaries.getRandomFunctionName(rand));
+       // System.out.println(Binaries.getRandomFunctionName(rand));
+       // System.out.println(Unaries.getRandomFunctionName(rand));
         
-        DoubleConsumer fsin = Unaries::sin;
-        //System.out.print(fsin.accept(12.5));
+        this.createTree(5);
                 
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -118,4 +128,47 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Drawing blue circle...");
      
     }
+    
+    private FunctionTreeNode createTree(int depth) {
+        FunctionTreeNode node = new FunctionTreeNode(depth);
+        
+        /**
+         * Determine a random number in the boundaries Min-Max
+         * using the pattern
+         * Min + (int)(Math.random() * ((Max - Min) + 1))
+         * inspired by https://stackoverflow.com/questions/363681
+        */
+        
+        int min = 1; //-- if chosen, use Unaries to pick a function
+        int max = 2; //-- uf chosen, use Binaries to pick a function
+        int unaryOrBinary = rand.nextInt((max - min) + 1) + min;
+        
+        String functionName;
+        switch (unaryOrBinary) {
+            case 1:
+                functionName = Unaries.getRandomFunctionName(rand);
+                node.setFunctionName(functionName);
+                
+                System.out.println ("Created node with value " + functionName + "["+depth+"]");
+                
+                if (depth > 1) {
+                    node.addChild(createTree(depth-1));
+                }                
+                break;
+            case 2:
+                functionName = Binaries.getRandomFunctionName(rand);
+                node.setFunctionName(functionName);
+                
+                System.out.println ("Created node with value " + functionName + "["+depth+"]");
+                
+                if (depth > 1) {
+                    node.addChild(createTree(depth-1));
+                    node.addChild(createTree(depth-1));
+                }                
+                break;
+
+        }
+
+        return node;
+    }    
 }
