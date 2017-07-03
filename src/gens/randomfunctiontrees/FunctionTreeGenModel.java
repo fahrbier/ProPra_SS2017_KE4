@@ -25,6 +25,7 @@ package gens.randomfunctiontrees;
 
 import general.GenModel;
 import gens.randomfunctiontrees.functioncollections.Binaries;
+import gens.randomfunctiontrees.functioncollections.Collection;
 import gens.randomfunctiontrees.functioncollections.Unaries;
 import java.io.PrintStream;
 import java.util.Random;
@@ -98,7 +99,8 @@ public class FunctionTreeGenModel extends GenModel {
        // System.out.println(Binaries.getRandomFunctionName(rand));
        // System.out.println(Unaries.getRandomFunctionName(rand));
         
-        this.createTree(5);
+        FunctionTreeNode rootNode = this.createTree(5);
+        this.printTree(rootNode);
                 
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -132,6 +134,42 @@ public class FunctionTreeGenModel extends GenModel {
     private FunctionTreeNode createTree(int depth) {
         FunctionTreeNode node = new FunctionTreeNode(depth);
         
+ 
+        String functionName = Collection.getRandomFunctionName(rand);
+        node.setFunctionName(functionName);
+        String[] tmp = functionName.split(",");
+        //System.out.println ("Created node with value " + functionName + "["+depth+"]");
+
+        
+        if (depth > 1) {
+            node.addChild(createTree(depth-1));
+            //System.out.println ("Child 1");
+            if (tmp[0].equals("2")) {
+                node.addChild(createTree(depth-1));
+                //System.out.println ("Child 2");
+            }
+
+        }                
+    
+
+        return node;
+    } 
+    
+    public void printTree(FunctionTreeNode startNode) {
+       
+        if (!startNode.isLeaf()) {
+            for (int i=0; i < startNode.getChildren().size(); i++) {
+                printTree(startNode.getChildren().get(i));
+            }      
+        }
+        System.out.println(startNode.getFunctionName() + "[" +startNode.getDepth() + "]");
+    
+    }
+    
+    
+    private FunctionTreeNode createTree2Pots(int depth) {
+        FunctionTreeNode node = new FunctionTreeNode(depth);
+        
         /**
          * Determine a random number in the boundaries Min-Max
          * using the pattern
@@ -152,7 +190,7 @@ public class FunctionTreeGenModel extends GenModel {
                 System.out.println ("Created node with value " + functionName + "["+depth+"]");
                 
                 if (depth > 1) {
-                    node.addChild(createTree(depth-1));
+                    node.addChild(createTree2Pots(depth-1));
                 }                
                 break;
             case 2:
@@ -162,13 +200,14 @@ public class FunctionTreeGenModel extends GenModel {
                 System.out.println ("Created node with value " + functionName + "["+depth+"]");
                 
                 if (depth > 1) {
-                    node.addChild(createTree(depth-1));
-                    node.addChild(createTree(depth-1));
+                    node.addChild(createTree2Pots(depth-1));
+                    node.addChild(createTree2Pots(depth-1));
                 }                
                 break;
 
         }
 
         return node;
-    }    
+    }   
+    
 }
