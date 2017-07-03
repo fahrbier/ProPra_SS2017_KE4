@@ -92,14 +92,14 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        rand = new Random(76565);
+        rand = new Random(1234);
         //System.out.println(Unaries.getRandomFunctionName(rand));
        // System.out.println(Unaries.getRandomFunctionName(rand));
        // System.out.println(Binaries.getRandomFunctionName(rand));
        // System.out.println(Binaries.getRandomFunctionName(rand));
        // System.out.println(Unaries.getRandomFunctionName(rand));
         
-        FunctionTreeNode rootNode = this.createTree(5);
+        FunctionTreeNode rootNode = this.createTree(4);
         this.printTree(rootNode);
                 
         for (int x=0; x<width; x++) {
@@ -143,10 +143,10 @@ public class FunctionTreeGenModel extends GenModel {
         
         if (depth > 1) {
             node.addChild(createTree(depth-1));
-            //System.out.println ("Child 1");
+            System.out.println ("Child 1 to " + functionName);
             if (tmp[0].equals("2")) {
                 node.addChild(createTree(depth-1));
-                //System.out.println ("Child 2");
+                System.out.println ("Child 2 to " + functionName);
             }
 
         }                
@@ -167,47 +167,6 @@ public class FunctionTreeGenModel extends GenModel {
     }
     
     
-    private FunctionTreeNode createTree2Pots(int depth) {
-        FunctionTreeNode node = new FunctionTreeNode(depth);
-        
-        /**
-         * Determine a random number in the boundaries Min-Max
-         * using the pattern
-         * Min + (int)(Math.random() * ((Max - Min) + 1))
-         * inspired by https://stackoverflow.com/questions/363681
-        */
-        
-        int min = 1; //-- if chosen, use Unaries to pick a function
-        int max = 2; //-- uf chosen, use Binaries to pick a function
-        int unaryOrBinary = rand.nextInt((max - min) + 1) + min;
-        
-        String functionName;
-        switch (unaryOrBinary) {
-            case 1:
-                functionName = Unaries.getRandomFunctionName(rand);
-                node.setFunctionName(functionName);
-                
-                System.out.println ("Created node with value " + functionName + "["+depth+"]");
-                
-                if (depth > 1) {
-                    node.addChild(createTree2Pots(depth-1));
-                }                
-                break;
-            case 2:
-                functionName = Binaries.getRandomFunctionName(rand);
-                node.setFunctionName(functionName);
-                
-                System.out.println ("Created node with value " + functionName + "["+depth+"]");
-                
-                if (depth > 1) {
-                    node.addChild(createTree2Pots(depth-1));
-                    node.addChild(createTree2Pots(depth-1));
-                }                
-                break;
-
-        }
-
-        return node;
-    }   
+   
     
 }
