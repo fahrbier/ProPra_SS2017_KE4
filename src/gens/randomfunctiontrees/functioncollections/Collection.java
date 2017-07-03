@@ -35,32 +35,39 @@ import java.util.Random;
  */
 public class Collection {
     
-    public static double avg(double a, double b) {
-        return (a+b)/2;
-    } 
+    @ExpectedArgsLength(length=2)
+    public static double avg(double[] args) {
+        return (args[0]+args[1])/2;
+    }     
 
-    public static double min(double a, double b) {
-        return (a>=b)?b:a;
+    @ExpectedArgsLength(length=2)
+    public static double min(double[] args) {
+        return (args[0]>=args[1])?args[1]:args[0];
     }     
     
-    public static double max(double a, double b) {
-        return (a>=b)?a:b;
+    @ExpectedArgsLength(length=2)
+    public static double max(double[] args) {
+        return (args[0]>=args[1])?args[0]:args[1];
     } 
     
-    public static double sin(double a) {
-        return Math.sin(a);
+    @ExpectedArgsLength(length=1)
+    public static double sin(double[] args) {
+        return Math.sin(args[0]);
     }    
 
-    public static double cos(double a) {
-        return Math.cos(a);
+    @ExpectedArgsLength(length=1)
+    public static double cos(double[] args) {
+        return Math.cos(args[0]);
     }  
     
-    public static double tan(double a) {
-        return Math.tan(a);
+    @ExpectedArgsLength(length=1)
+    public static double tan(double[] args) {
+        return Math.tan(args[0]);
     }  
     
-    public static double plusOne(double a) {
-        return a + 1.0;
+    @ExpectedArgsLength(length=1)
+    public static double plusOne(double[] args) {
+        return args[0] + 1.0;
     }       
    
     public static String getRandomFunctionName(Random rand) {
@@ -77,9 +84,9 @@ public class Collection {
         ArrayList<String> filteredMethlist = new ArrayList<>();
         for (int i=0; i<methlist.length; i++) {
             String name = methlist[i].getName();
-            int countParams = methlist[i].getParameterCount();
+            
             if ( ! "getRandomFunctionName".equals(name)) {
-                filteredMethlist.add(String.valueOf(countParams) + "," + name);
+                filteredMethlist.add(name);
             }
         }
         
