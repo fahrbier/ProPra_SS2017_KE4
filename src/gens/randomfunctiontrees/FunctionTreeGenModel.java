@@ -26,6 +26,7 @@ package gens.randomfunctiontrees;
 import general.GenModel;
 
 import gens.randomfunctiontrees.functioncollections.Collection;
+import gens.randomfunctiontrees.functioncollections.ExpectedArgsLength;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -96,7 +97,7 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        rand = new Random(1234);
+        rand = new Random(34567);
 
         
         FunctionTreeNode rootNode = this.createFunctionTree(4);
@@ -104,12 +105,11 @@ public class FunctionTreeGenModel extends GenModel {
          
         /*
         try {
-            Method method = Collection.class.getMethod("avg2", double[].class);
+            Method method = Collection.class.getMethod("sin", double.class);
             System.out.println("-----------------------------");
-            double[] argsen = new double[2];
-                  argsen[0]  = 70;
-                  argsen[1]  = 30;
-            System.out.println(method.invoke(null, argsen));
+            System.out.println(method.getAnnotation(ExpectedArgsLength.class).length()   );
+
+            System.out.println(method.invoke(null, 70.0));
             System.out.println("-----------------------------");
             //method.in
             
@@ -125,6 +125,7 @@ public class FunctionTreeGenModel extends GenModel {
             Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         */
+        
         
         
         for (int x=0; x<width; x++) {
@@ -157,25 +158,37 @@ public class FunctionTreeGenModel extends GenModel {
     }
     
     private FunctionTreeNode createFunctionTree(int depth) {
-        FunctionTreeNode node = new FunctionTreeNode(depth);
         
- 
+        FunctionTreeNode node = new FunctionTreeNode(depth);
+          
         String functionName = Collection.getRandomFunctionName(rand);
         node.setFunctionName(functionName);
-        String[] tmp = functionName.split(",");
         
+        int amountChildren = 0;
+        
+        try {
+            /**
+             * Read Annotation to find out how many parameters/arguments
+             * are expected. This determines the amount of children added
+             * unless we're at the desired depth already
+             */
+            Method method = Collection.class.getMethod(functionName, double[].class);
+            amountChildren = method.getAnnotation(ExpectedArgsLength.class).length();
+        
+        
+        } catch (NoSuchMethodException | SecurityException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+         
         if (depth > 1) {
-            //-- there will be at least one child
-            node.addChild(createFunctionTree(depth-1));
-            System.out.println ("Child 1 to " + functionName);
-            if (tmp[0].equals("2")) {
+            
+            for (int i=0; i < amountChildren; i++) {
                 node.addChild(createFunctionTree(depth-1));
-                System.out.println ("Child 2 to " + functionName);
+                System.out.println ("Child " + i + " to " + functionName);
             }
 
         }                
-    
-
+   
         return node;
     } 
     
