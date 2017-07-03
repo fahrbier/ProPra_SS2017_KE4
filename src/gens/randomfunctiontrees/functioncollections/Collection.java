@@ -27,17 +27,17 @@ public class Collection {
     
     @ExpectedArgsLength(length=1)
     public static double sin(double[] args) {
-        return Math.sin(args[0]);
+        return Math.abs(Math.sin(Math.toRadians(args[0]) * 360 ));
     }    
 
     @ExpectedArgsLength(length=1)
     public static double cos(double[] args) {
-        return Math.cos(args[0]);
+        return Math.abs(Math.cos(Math.toRadians(args[0]) * 360 ));
     }  
     
     @ExpectedArgsLength(length=1)
     public static double tan(double[] args) {
-        return Math.tan(args[0]);
+        return Math.abs(Math.tan(Math.toRadians(args[0]) * 360 ));
     }  
     
     @ExpectedArgsLength(length=1)
