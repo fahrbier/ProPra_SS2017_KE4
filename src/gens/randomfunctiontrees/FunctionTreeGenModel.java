@@ -56,12 +56,14 @@ public class FunctionTreeGenModel extends GenModel {
     
     private int width; 
     private int height;
+    private int seed;
     
     
     
     public FunctionTreeGenModel() {
         width = 600;
         height = 400;
+        seed = 1234;
     }
     
     public int getWidth() {
@@ -71,6 +73,10 @@ public class FunctionTreeGenModel extends GenModel {
     public int getHeight() {
         return height;
     }
+    
+    public int getSeed() {
+        return seed;
+    }    
 
     public void setWidth(int value) {
         if (value >  0 && value <= 3000) {
@@ -88,6 +94,14 @@ public class FunctionTreeGenModel extends GenModel {
         }
     }    
  
+    public void setSeed(int value) {
+        if (value >  0 && value <= 32000) {
+            seed = value;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }     
+    
     @Override
     public void generate() {     
 
@@ -97,7 +111,7 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        rand = new Random(34567);
+        rand = new Random(this.seed);
 
         
         FunctionTreeNode rootNode = this.createFunctionTree(4);

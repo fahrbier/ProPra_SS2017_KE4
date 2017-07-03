@@ -38,6 +38,7 @@ public class FunctionTreeGenController extends GenController {
 
     @FXML private TextField textFieldWidth;  
     @FXML private TextField textFieldHeight;
+    @FXML private TextField textFieldSeed;
     
     FunctionTreeGenModel model;
 
@@ -67,8 +68,31 @@ public class FunctionTreeGenController extends GenController {
                 String.valueOf(model.getWidth()));
         textFieldHeight.textProperty().setValue(
                 String.valueOf(model.getHeight()));
+        textFieldSeed.textProperty().setValue(
+                String.valueOf(model.getSeed()));        
         
         // change model if user changes something on the view
+       
+        textFieldSeed.focusedProperty().addListener((observableBoolean,
+                oldValue, newValue) -> {
+            if (!newValue){ // newValue=0 means no focus -> if no longer focused
+                try {
+                    String s = textFieldSeed.textProperty().getValue();
+                    int h = Integer.parseInt(s);
+                    model.setSeed(h);
+                } catch (IllegalArgumentException ex) {
+                    // catches both the possible NumberFormatException from
+                    // parseInt() as well as the possible IllegalArgumentExcept.
+                    // from SimpleGenModel.setHeight(..)
+                    
+                    // display last valid value for width from model
+                    textFieldSeed.textProperty().setValue(
+                            String.valueOf(model.getSeed()));
+                    showInputAlert("Seed requires an integer value between 1"+
+                            " and 32000.");
+                }
+            }
+        });        
         
         textFieldWidth.focusedProperty().addListener((observableBoolean,
                 oldValue, newValue) -> {
