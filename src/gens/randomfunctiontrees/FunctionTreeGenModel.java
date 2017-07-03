@@ -24,12 +24,12 @@
 package gens.randomfunctiontrees;
 
 import general.GenModel;
-import gens.randomfunctiontrees.functioncollections.Binaries;
+
 import gens.randomfunctiontrees.functioncollections.Collection;
-import gens.randomfunctiontrees.functioncollections.Unaries;
-import java.io.PrintStream;
+
+
 import java.util.Random;
-import java.util.function.DoubleConsumer;
+
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -93,13 +93,9 @@ public class FunctionTreeGenModel extends GenModel {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
         rand = new Random(1234);
-        //System.out.println(Unaries.getRandomFunctionName(rand));
-       // System.out.println(Unaries.getRandomFunctionName(rand));
-       // System.out.println(Binaries.getRandomFunctionName(rand));
-       // System.out.println(Binaries.getRandomFunctionName(rand));
-       // System.out.println(Unaries.getRandomFunctionName(rand));
+
         
-        FunctionTreeNode rootNode = this.createTree(4);
+        FunctionTreeNode rootNode = this.createFunctionTree(4);
         this.printTree(rootNode);
                 
         for (int x=0; x<width; x++) {
@@ -131,21 +127,20 @@ public class FunctionTreeGenModel extends GenModel {
      
     }
     
-    private FunctionTreeNode createTree(int depth) {
+    private FunctionTreeNode createFunctionTree(int depth) {
         FunctionTreeNode node = new FunctionTreeNode(depth);
         
  
         String functionName = Collection.getRandomFunctionName(rand);
         node.setFunctionName(functionName);
         String[] tmp = functionName.split(",");
-        //System.out.println ("Created node with value " + functionName + "["+depth+"]");
-
         
         if (depth > 1) {
-            node.addChild(createTree(depth-1));
+            //-- there will be at least one child
+            node.addChild(createFunctionTree(depth-1));
             System.out.println ("Child 1 to " + functionName);
             if (tmp[0].equals("2")) {
-                node.addChild(createTree(depth-1));
+                node.addChild(createFunctionTree(depth-1));
                 System.out.println ("Child 2 to " + functionName);
             }
 
