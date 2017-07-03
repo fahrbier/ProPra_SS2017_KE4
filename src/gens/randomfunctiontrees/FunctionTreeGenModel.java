@@ -26,9 +26,13 @@ package gens.randomfunctiontrees;
 import general.GenModel;
 
 import gens.randomfunctiontrees.functioncollections.Collection;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import javafx.scene.canvas.Canvas;
@@ -97,7 +101,32 @@ public class FunctionTreeGenModel extends GenModel {
         
         FunctionTreeNode rootNode = this.createFunctionTree(4);
         this.printTree(rootNode);
-                
+         
+        /*
+        try {
+            Method method = Collection.class.getMethod("avg2", double[].class);
+            System.out.println("-----------------------------");
+            double[] argsen = new double[2];
+                  argsen[0]  = 70;
+                  argsen[1]  = 30;
+            System.out.println(method.invoke(null, argsen));
+            System.out.println("-----------------------------");
+            //method.in
+            
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+        
+        
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
                 
@@ -157,8 +186,23 @@ public class FunctionTreeGenModel extends GenModel {
                 printTree(startNode.getChildren().get(i));
             }      
         }
+        
+
+        
         System.out.println(startNode.getFunctionName() + "[" +startNode.getDepth() + "]");
     
+    }
+    
+    public double calcFunctionTree(FunctionTreeNode startNode, int x, int y) {
+       
+        if (!startNode.isLeaf()) {
+            for (int i=0; i < startNode.getChildren().size(); i++) {
+                return calcFunctionTree(startNode.getChildren().get(i), x,  y);
+            }      
+        }
+        
+        return 0;
+        
     }
     
     
