@@ -117,49 +117,16 @@ public class FunctionTreeGenModel extends GenModel {
         FunctionTreeNode rootNode = this.createFunctionTree(4);
         this.printTree(rootNode);
          
-        /*
-        try {
-            Method method = Collection.class.getMethod("sin", double.class);
-            System.out.println("-----------------------------");
-            System.out.println(method.getAnnotation(ExpectedArgsLength.class).length()   );
 
-            System.out.println(method.invoke(null, 70.0));
-            System.out.println("-----------------------------");
-            //method.in
-            
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
         
         
         
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
                 
-                Color c = new Color( 
-                        Math.abs(
-                            Math.sin(
-                                Math.toRadians(
-                                    ((double)x/(double)width) * 360
-                                )        
-                            )
-                        ) ,
-                        Math.abs(
-                            Math.cos(
-                                Math.toRadians(
-                                    ((double)x/(double)height) * 360
-                                )        
-                            )
-                        ) ,
+                Color c = new Color(
+                        this.calcFunctionTree(rootNode, (double)x/(double)width, (double)y/(double)height),
+                        this.calcFunctionTree(rootNode, (double)x/(double)width, (double)y/(double)height),
                         1,
                         1.0);
                 
@@ -167,7 +134,7 @@ public class FunctionTreeGenModel extends GenModel {
             }
         }
 
-        setGenState("Drawing blue circle...");
+        setGenState("Drawing fancy arts...");
      
     }
     
@@ -198,37 +165,45 @@ public class FunctionTreeGenModel extends GenModel {
             
             for (int i=0; i < amountChildren; i++) {
                 node.addChild(createFunctionTree(depth-1));
-                System.out.println ("Child " + i + " to " + functionName);
             }
 
-        }                
-   
+        }                 
         return node;
     } 
     
-    public void printTree(FunctionTreeNode startNode) {
+    private void printTree(FunctionTreeNode startNode) {
        
         if (!startNode.isLeaf()) {
             for (int i=0; i < startNode.getChildren().size(); i++) {
                 printTree(startNode.getChildren().get(i));
             }      
         }
-        
-
-        
-        System.out.println(startNode.getFunctionName() + "[" +startNode.getDepth() + "]");
     
     }
     
-    public double calcFunctionTree(FunctionTreeNode startNode, int x, int y) {
+    private double calcFunctionTree(FunctionTreeNode startNode, double x, double y) {
        
         if (!startNode.isLeaf()) {
             for (int i=0; i < startNode.getChildren().size(); i++) {
                 return calcFunctionTree(startNode.getChildren().get(i), x,  y);
             }      
         }
+          
+        /**
+         * Put always both parameter into the args array - unary functions which expects only one
+         * value will pick it from double[0] and ignore the remaning values
+         */
+        double[] args = new double[] { x, y };
+       
+        try {
+            Method method = Collection.class.getMethod(startNode.getFunctionName(), double[].class);
+            return Double.valueOf(method.invoke(null, args).toString());
+            
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return 0;
+        return 0.0;
         
     }
     
