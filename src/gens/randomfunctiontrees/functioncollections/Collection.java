@@ -13,8 +13,19 @@ public class Collection {
     @ExpectedArgsLength(length=2)
     public static double avg(double[] args) {
         return (args[0]+args[1])/2;
-    }     
+    }
+    /*
+    @ExpectedArgsLength(length=2)
+    public static double mul(double[] args) {
+        return args[0]*args[1];
+    }  
 
+    @ExpectedArgsLength(length=2)
+    public static double exp(double[] args) {
+        return Math.abs(Math.pow(args[0], args[1])) > 1.0 ? 1.0 : Math.abs(Math.pow(args[0], args[1]));
+    }      
+    
+    
     @ExpectedArgsLength(length=2)
     public static double min(double[] args) {
         return (args[0]>=args[1])?args[1]:args[0];
@@ -24,7 +35,7 @@ public class Collection {
     public static double max(double[] args) {
         return (args[0]>=args[1])?args[0]:args[1];
     } 
-    
+    */
     @ExpectedArgsLength(length=1)
     public static double sin(double[] args) {
         return Math.abs(Math.sin(Math.toRadians(args[0]) * 360 ));
@@ -40,11 +51,12 @@ public class Collection {
         return Math.abs(Math.tan(Math.toRadians(args[0]) * 360 ));
     }  
     
+    /*
     @ExpectedArgsLength(length=1)
     public static double plusOne(double[] args) {
         return args[0] + 1.0;
     }       
-   
+    */
     public static String getRandomFunctionName(Random rand) {
         /**
          * Using reflection to find out all methods of this collection here.
