@@ -1,26 +1,3 @@
-/*
- * The MIT License
- *
- * Copyright 2017 Christoph Baumhardt.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package gens.randomfunctiontrees;
 
 import gens.basicexample1.*;
@@ -39,6 +16,7 @@ public class FunctionTreeGenController extends GenController {
     @FXML private TextField textFieldWidth;  
     @FXML private TextField textFieldHeight;
     @FXML private TextField textFieldSeed;
+    @FXML private TextField textFieldDepth;
     
     FunctionTreeGenModel model;
 
@@ -70,6 +48,8 @@ public class FunctionTreeGenController extends GenController {
                 String.valueOf(model.getHeight()));
         textFieldSeed.textProperty().setValue(
                 String.valueOf(model.getSeed()));        
+        textFieldDepth.textProperty().setValue(
+                String.valueOf(model.getDepth())); 
         
         // change model if user changes something on the view
        
@@ -135,8 +115,29 @@ public class FunctionTreeGenController extends GenController {
                 }
             }
         });
+
+        textFieldDepth.focusedProperty().addListener((observableBoolean,
+                oldValue, newValue) -> {
+            if (!newValue){ // newValue=0 means no focus -> if no longer focused
+                try {
+                    String s = textFieldDepth.textProperty().getValue();
+                    int h = Integer.parseInt(s);
+                    model.setDepth(h);
+                } catch (IllegalArgumentException ex) {
+                    // catches both the possible NumberFormatException from
+                    // parseInt() as well as the possible IllegalArgumentExcept.
+                    // from SimpleGenModel.setHeight(..)
+                    
+                    // display last valid value for width from model
+                    textFieldDepth.textProperty().setValue(
+                            String.valueOf(model.getHeight()));
+                    showInputAlert("Depth requires an integer value between 1"+
+                            " and 10.");
+                }
+            }
+        });        
         
-        // NOTE: The view does not reflect changes to the model that are done
+// NOTE: The view does not reflect changes to the model that are done
         //       outside the given view.
     }
 

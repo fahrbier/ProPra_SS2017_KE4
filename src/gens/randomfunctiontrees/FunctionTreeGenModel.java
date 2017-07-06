@@ -1,26 +1,3 @@
-/*
- * The MIT License
- *
- * Copyright 2017 Christoph Baumhardt.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package gens.randomfunctiontrees;
 
 import general.GenModel;
@@ -57,13 +34,15 @@ public class FunctionTreeGenModel extends GenModel {
     private int width; 
     private int height;
     private int seed;
+    private int depth;
     
-    
+    private int treeDepthForOutput = 1;
     
     public FunctionTreeGenModel() {
-        width = 600;
-        height = 400;
-        seed = 1234;
+        width = 200;
+        height = 200;
+        seed = 2411;
+        depth = 4;
     }
     
     public int getWidth() {
@@ -78,8 +57,12 @@ public class FunctionTreeGenModel extends GenModel {
         return seed;
     }    
 
+    public int getDepth() {
+        return depth;
+    }  
+    
     public void setWidth(int value) {
-        if (value >  0 && value <= 3000) {
+        if (value >  0 && value <= 500) {
             width = value;
         } else {
             throw new IllegalArgumentException();
@@ -87,7 +70,7 @@ public class FunctionTreeGenModel extends GenModel {
     }
 
     public void setHeight(int value) {
-        if (value >  0 && value <= 3000) {
+        if (value >  0 && value <= 500) {
             height = value;
         } else {
             throw new IllegalArgumentException();
@@ -101,6 +84,14 @@ public class FunctionTreeGenModel extends GenModel {
             throw new IllegalArgumentException();
         }
     }     
+
+    public void setDepth(int value) {
+        if (value >  0 && value <= 10) {
+            depth = value;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }  
     
     @Override
     public void generate() {     
@@ -114,12 +105,8 @@ public class FunctionTreeGenModel extends GenModel {
         rand = new Random(this.seed);
 
         
-        FunctionTreeNode rootNode = this.createFunctionTree(4);
-        this.printTree(rootNode);
-         
-
-        
-        
+        FunctionTreeNode rootNode = this.createFunctionTree(this.depth);
+        //this.printTree(rootNode);
         
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -172,8 +159,10 @@ public class FunctionTreeGenModel extends GenModel {
     } 
     
     private void printTree(FunctionTreeNode startNode) {
-       
+
+        System.out.println(treeDepthForOutput);
         if (!startNode.isLeaf()) {
+            treeDepthForOutput += 1;
             for (int i=0; i < startNode.getChildren().size(); i++) {
                 printTree(startNode.getChildren().get(i));
             }      
@@ -197,7 +186,8 @@ public class FunctionTreeGenModel extends GenModel {
        
         try {
             Method method = Collection.class.getMethod(startNode.getFunctionName(), double[].class);
-            return Double.valueOf(method.invoke(null, args).toString());
+            double value = Double.valueOf(method.invoke(null, args).toString());
+            return value > 1 ? 1 : value;
             
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(FunctionTreeGenModel.class.getName()).log(Level.SEVERE, null, ex);

@@ -10,12 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<!-- Every XXXXGenerator view has to somewhere include the following element:
 
-        <Button fx:id="buttonGenerate" onAction="#handleGenerate" ... />  
-        
-     This Button is included in this file on line 57.      
--->
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" 
             xmlns:fx="http://javafx.com/fxml/1" 
@@ -29,27 +24,52 @@
                    <Insets left="10.0" />
                 </GridPane.margin>
              </Label>
-             <Label text="Width" GridPane.rowIndex="1" GridPane.columnIndex="0">
+             <Label text="A random integer to start the function tree generation. (enter 1-32000)"  wrapText="true" prefWidth="150.0" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
+             </Label> 
+             <Label text="Depth" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <GridPane.margin>
+                   <Insets left="10.0" />
+                </GridPane.margin>
+             </Label>
+             <Label text="How deep should the random function tree be? (enter 1-10)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
+             </Label>                           
+             <Label text="Width" GridPane.rowIndex="2" GridPane.columnIndex="0">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Height" GridPane.rowIndex="2" GridPane.columnIndex="0">
+             <Label text="Set the width of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="2" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
+             </Label> 
+            <Label text="Height" GridPane.rowIndex="3" GridPane.columnIndex="0">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
+             <Label text="Set the height of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="3" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
+             </Label> 
+             
+             
+             
             <TextField fx:id="textFieldSeed" GridPane.rowIndex="0" GridPane.columnIndex="1" >
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>            
-            <TextField fx:id="textFieldWidth" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <TextField fx:id="textFieldDepth" GridPane.rowIndex="1" GridPane.columnIndex="1" >
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </TextField> 
+            <TextField fx:id="textFieldWidth" GridPane.rowIndex="2" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="textFieldHeight" GridPane.rowIndex="2" GridPane.columnIndex="1" >
+            <TextField fx:id="textFieldHeight" GridPane.rowIndex="3" GridPane.columnIndex="1" >
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
