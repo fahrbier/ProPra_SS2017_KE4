@@ -106,7 +106,7 @@ public class FunctionTreeGenModel extends GenModel {
 
         
         FunctionTreeNode rootNode = this.createFunctionTree(this.depth);
-        //this.printTree(rootNode);
+        rootNode.print();
         
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -157,18 +157,6 @@ public class FunctionTreeGenModel extends GenModel {
         }                 
         return node;
     } 
-    
-    private void printTree(FunctionTreeNode startNode) {
-
-        System.out.println(treeDepthForOutput);
-        if (!startNode.isLeaf()) {
-            treeDepthForOutput += 1;
-            for (int i=0; i < startNode.getChildren().size(); i++) {
-                printTree(startNode.getChildren().get(i));
-            }      
-        }
-    
-    }
     
     private double calcFunctionTree(FunctionTreeNode startNode, double x, double y) {
        
