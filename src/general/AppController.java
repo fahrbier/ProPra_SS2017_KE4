@@ -62,6 +62,7 @@ public class AppController {
     private Stage genStage; // a window for a selected generator
     private GenController genController; // the controller associated with the selected generator
 
+    private String filename;
     
     @FXML
     public void initialize() {
@@ -166,11 +167,15 @@ public class AppController {
                                 statusLabel.textProperty().setValue(
                                         newValue.getDescription());
                             }                           
-                            if ((newValue == GenState.FINISHED_READY ||
-                                    newValue == GenState.ITERATION_READY) &&
-                                    genController != null) {
-                                canvas = genController.getModel().
-                                        getCanvas();
+                            if ((newValue == GenState.FINISHED_READY || newValue == GenState.ITERATION_READY) && genController != null) {
+                                canvas = genController.getModel().getCanvas();
+                                
+                                /**
+                                 * Modification for KE4
+                                 * Get a filename (can be null) from the currently used model
+                                 */       
+                                filename = genController.getModel().getFileName();
+                                
                                 scrollPane.setContent(canvas);
                                 menuItemSaveImage.setDisable(false);
                             }
@@ -212,12 +217,21 @@ public class AppController {
     public void saveImage(String fileName){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Image");
+        
+        /**
+         * Modification for KE4
+         * filename is retrieved from the respective model and can be null, 
+         * therwise take this name instead of the default which is passed into this method
+         */                
+        if (filename != null) {
+            fileName = filename;    
+        }
+        
         fileChooser.setInitialFileName(fileName);
         fileChooser.setInitialDirectory(
             new File(System.getProperty("user.home"))
         );  
-        FileChooser.ExtensionFilter extFilter 
-                = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
         fileChooser.getExtensionFilters().add(extFilter);
 
         // show Save Image dialog and process user input

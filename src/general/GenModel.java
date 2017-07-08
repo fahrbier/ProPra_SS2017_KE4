@@ -52,6 +52,9 @@ public abstract class GenModel {
 
     protected String genName; 
     protected Canvas canvas; // canvas for the GenModel to draw on
+    
+    protected String filename; // Modification for KE4 this one will be used by the "File Save Dialog" in the main menu
+    
     protected Thread backgroundThread; // to execute generate()
     // use a property instead of GenState object for easy change monitoring
     private final ObjectProperty<GenState> genState;
@@ -123,6 +126,17 @@ public abstract class GenModel {
      */
     public Canvas getCanvas() {
         return canvas; // can be null
+    }
+    
+    /**
+     * Modification for KE4
+     * This returns a filename for the main File-Save Dialog from models 
+     * which use this feature
+     * 
+     * @return 
+     */
+    public String getFileName() {
+        return filename; // can be null as well
     }
     
 
