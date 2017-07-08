@@ -14,7 +14,7 @@ public class Collection {
     public static double avg(double[] args) {
         return (args[0]+args[1])/2;
     }
-    /*
+    
     @ExpectedArgsLength(length=2)
     public static double mul(double[] args) {
         return args[0]*args[1];
@@ -22,7 +22,7 @@ public class Collection {
 
     @ExpectedArgsLength(length=2)
     public static double exp(double[] args) {
-        return Math.abs(Math.pow(args[0], args[1])) > 1.0 ? 1.0 : Math.abs(Math.pow(args[0], args[1]));
+        return Math.pow(args[0], args[1]);
     }      
     
     
@@ -35,20 +35,32 @@ public class Collection {
     public static double max(double[] args) {
         return (args[0]>=args[1])?args[0]:args[1];
     } 
-    */
+    
+    
+    @ExpectedArgsLength(length=1)
+    public static double squared(double[] args) {
+        return args[0] * args[0];
+    } 
+    
     @ExpectedArgsLength(length=1)
     public static double sin(double[] args) {
-        return Math.abs(Math.sin(Math.toRadians(args[0]) * 360 ));
+        return Math.sin(Math.toRadians(args[0]));
     }    
 
     @ExpectedArgsLength(length=1)
     public static double cos(double[] args) {
-        return Math.abs(Math.cos(Math.toRadians(args[0]) * 360 ));
+        return Math.cos(Math.toRadians(args[0]));
     }  
     
     @ExpectedArgsLength(length=1)
     public static double tan(double[] args) {
-        return Math.abs(Math.tan(Math.toRadians(args[0]) * 360 ));
+        /**
+         * To make sure that the result is in the requested interval [0,1]
+         * i added a division by the biggest to expect argument which is also
+         * from the same interval, hence divide by tan(1) to keep result in
+         * the correct interval.
+         */
+        return Math.tan(Math.toRadians(args[0]) / Math.tan(1) );
     }  
     
     /*
