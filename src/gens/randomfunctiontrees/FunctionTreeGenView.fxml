@@ -22,77 +22,84 @@
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
 
          <children>
-             <Label text="Seed" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.valignment="TOP">
+             <Label text="Seed" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="TOP">
                 <GridPane.margin>
                    <Insets left="10.0" right="10.0"/>
                 </GridPane.margin>
              </Label>
-             <Label text="A random integer to start the function tree generation. (enter 1-32000)"  wrapText="true" prefWidth="150.0" GridPane.rowIndex="0" GridPane.columnIndex="2">
+             <Label text="A random integer to start the function tree generation. (enter 1-32000)"  wrapText="true" prefWidth="150.0" GridPane.rowIndex="1" GridPane.columnIndex="2">
                 <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
              </Label> 
-             <Label text="Depth" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="TOP">
+             <Label text="Depth" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.valignment="TOP">
                 <GridPane.margin>
                    <Insets left="10.0" right="10.0"/>
                 </GridPane.margin>
              </Label>
-             <Label text="How deep should the random function tree be? (enter 1-10)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="1" GridPane.columnIndex="2">
+             <Label text="How deep should the random function tree be? (enter 1-10)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="2" GridPane.columnIndex="2">
                 <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
              </Label>                           
-             <Label text="Width" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.valignment="TOP">
+             <Label text="Width" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0"/>
                </GridPane.margin>
             </Label>
-             <Label text="Set the width of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="2" GridPane.columnIndex="2">
+             <Label text="Set the width of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="3" GridPane.columnIndex="2">
                 <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
              </Label> 
-            <Label text="Height" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.valignment="TOP">
+            <Label text="Height" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0"/>
                </GridPane.margin>
             </Label>
-             <Label text="Set the height of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="3" GridPane.columnIndex="2">
+             <Label text="Set the height of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="4" GridPane.columnIndex="2">
                 <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
              </Label> 
 
-            <Label text="Color generation" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.valignment="TOP">
+            <Label text="Color generation" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0"/>
                </GridPane.margin>
             </Label>
-             <Label text="How should the color be generated and which component is dependent to the randomized function tree" wrapText="true" prefWidth="150.0" GridPane.rowIndex="4" GridPane.columnIndex="2">
+             <Label text="How should the color be generated and which component is dependent to the randomized function tree" wrapText="true" prefWidth="150.0" GridPane.rowIndex="5" GridPane.columnIndex="2">
                 <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
              </Label>              
              
              
-            <TextField fx:id="textFieldSeed" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <Button fx:id="buttonOpenFile" onAction="#openFileDialog" text="_Open existing Image" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.valignment="TOP" >
+                <GridPane.margin>
+                  <Insets top="5.0" />
+                  <Insets right="10.0" />
+               </GridPane.margin>           
+            </Button> 
+             
+            <TextField fx:id="textFieldSeed" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>  
                       
-            <TextField fx:id="textFieldDepth" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="textFieldDepth" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="5.0" />
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField> 
             
-            <TextField fx:id="textFieldWidth" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="textFieldWidth" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                    <Insets top="5.0" />
                    <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
             
-            <TextField fx:id="textFieldHeight" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="textFieldHeight" GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="5.0" />
                   <Insets right="10.0" />
                </GridPane.margin>
             </TextField>
             
-            <ComboBox fx:id="comboColorGeneration" GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <ComboBox fx:id="comboColorGeneration" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.valignment="TOP">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="HSB - H randomized" />

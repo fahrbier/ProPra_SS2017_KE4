@@ -1,18 +1,7 @@
 package gens.randomfunctiontrees;
 
 import general.GenModel;
-
-import gens.randomfunctiontrees.functioncollections.Collection;
-import gens.randomfunctiontrees.functioncollections.ExpectedArgsLength;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -38,7 +27,7 @@ public class FunctionTreeGenModel extends GenModel {
     private int seed;
     private int depth;
     
-    private int treeDepthForOutput = 1;
+    private final int treeDepthForOutput = 1;
     
     public FunctionTreeGenModel() {
         width = 5;
@@ -100,6 +89,11 @@ public class FunctionTreeGenModel extends GenModel {
 
         setGenState("Creating new canvas...");
         canvas = new Canvas(width, height);
+        /**
+         * The filename contains the seed and the depth which both can be used to create the same random tree again
+         */
+        filename = this.seed + "rft" + this.depth; 
+        
         /*
         canvas.setOnMouseMoved((MouseEvent event) -> {
             System.out.println(event.getSceneX());

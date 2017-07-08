@@ -3,11 +3,16 @@ package gens.randomfunctiontrees;
 import gens.basicexample1.*;
 import general.GenController;
 import general.GenModel;
+import java.io.File;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
 /**
  * FXML Controller class
@@ -20,11 +25,19 @@ public class FunctionTreeGenController extends GenController {
     @FXML private TextField textFieldHeight;
     @FXML private TextField textFieldSeed;
     @FXML private TextField textFieldDepth;
-    @FXML private ComboBox<String> comboColorGeneration; 
+    @FXML private ComboBox<String> comboColorGeneration;     
+    @FXML private Button buttonOpenFile;  
     
     
     FunctionTreeGenModel model;
 
+    
+
+
+   
+
+    
+    
     
     @Override
     public GenModel getModel() {
@@ -46,16 +59,17 @@ public class FunctionTreeGenController extends GenController {
         
         model = new FunctionTreeGenModel();
 
+
+        
+        
+        
+        
         
         // display values from model
-        textFieldWidth.textProperty().setValue(
-                String.valueOf(model.getWidth()));
-        textFieldHeight.textProperty().setValue(
-                String.valueOf(model.getHeight()));
-        textFieldSeed.textProperty().setValue(
-                String.valueOf(model.getSeed()));        
-        textFieldDepth.textProperty().setValue(
-                String.valueOf(model.getDepth())); 
+        textFieldWidth.textProperty().setValue(String.valueOf(model.getWidth()));
+        textFieldHeight.textProperty().setValue(String.valueOf(model.getHeight()));
+        textFieldSeed.textProperty().setValue(String.valueOf(model.getSeed()));        
+        textFieldDepth.textProperty().setValue(String.valueOf(model.getDepth())); 
         
         // change model if user changes something on the view
        
@@ -135,16 +149,35 @@ public class FunctionTreeGenController extends GenController {
                     // from SimpleGenModel.setHeight(..)
                     
                     // display last valid value for width from model
-                    textFieldDepth.textProperty().setValue(
-                            String.valueOf(model.getHeight()));
-                    showInputAlert("Depth requires an integer value between 1"+
-                            " and 10.");
+                    textFieldDepth.textProperty().setValue(String.valueOf(model.getHeight()));
+                    showInputAlert("Depth requires an integer value between 1 and 10.");
                 }
             }
         });        
         
-// NOTE: The view does not reflect changes to the model that are done
-        //       outside the given view.
-    }
 
+    }
+    
+    public void openFileDialog() {
+
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(buttonOpenFile.getScene().getWindow());
+
+        try {
+            int seed = Integer.parseInt(file.getName().split("\\.")[0].split("rft")[0]);
+            int depth = Integer.parseInt(file.getName().split("\\.")[0].split("rft")[1]);
+            
+            model.setSeed(seed);
+            model.setDepth(depth);
+            
+            textFieldSeed.textProperty().setValue(String.valueOf(model.getSeed()));        
+            textFieldDepth.textProperty().setValue(String.valueOf(model.getDepth())); 
+        }
+        catch (Exception ex)  {
+            showInputAlert("File Name has to be in the form {$seed}rft{$depth}.png like 2411rft7.png for example.");
+        }
+ 
+    }
 }
