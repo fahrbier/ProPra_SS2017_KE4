@@ -10,10 +10,10 @@ import java.util.ArrayList;
  */
 public class FunctionTreeNode {
 
-    private int myDepth;
+    private final int myDepth;
     private String functionName;
    
-    private ArrayList<FunctionTreeNode> children = new ArrayList<>();
+    private final ArrayList<FunctionTreeNode> children = new ArrayList<>();
 
     FunctionTreeNode(int depth) {
         this.myDepth = depth;      

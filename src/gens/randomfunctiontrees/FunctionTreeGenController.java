@@ -3,8 +3,11 @@ package gens.randomfunctiontrees;
 import gens.basicexample1.*;
 import general.GenController;
 import general.GenModel;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -17,6 +20,8 @@ public class FunctionTreeGenController extends GenController {
     @FXML private TextField textFieldHeight;
     @FXML private TextField textFieldSeed;
     @FXML private TextField textFieldDepth;
+    @FXML private ComboBox<String> comboColorGeneration; 
+    
     
     FunctionTreeGenModel model;
 
@@ -40,6 +45,7 @@ public class FunctionTreeGenController extends GenController {
         super.initialize(); // activate buttonGenerate on Enter
         
         model = new FunctionTreeGenModel();
+
         
         // display values from model
         textFieldWidth.textProperty().setValue(
@@ -90,7 +96,7 @@ public class FunctionTreeGenController extends GenController {
                     textFieldWidth.textProperty().setValue(
                             String.valueOf(model.getWidth()));
                     showInputAlert("Width requires an integer value between 1" +
-                            " and 3000.");
+                            " and 500.");
                 }
             }
         });
@@ -111,7 +117,7 @@ public class FunctionTreeGenController extends GenController {
                     textFieldHeight.textProperty().setValue(
                             String.valueOf(model.getHeight()));
                     showInputAlert("Heigth requires an integer value between 1"+
-                            " and 3000.");
+                            " and 500.");
                 }
             }
         });
