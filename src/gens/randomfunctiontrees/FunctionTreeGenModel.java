@@ -27,6 +27,9 @@ public class FunctionTreeGenModel extends GenModel {
     private int seed;
     private int depth;
     
+    private int thisManySeeds;
+    private boolean showTreeInConsole;
+    
     private final int treeDepthForOutput = 1;
     
     public FunctionTreeGenModel() {
@@ -34,6 +37,8 @@ public class FunctionTreeGenModel extends GenModel {
         height = 5;
         seed = 2411;
         depth = 4;
+        thisManySeeds = 1;
+        showTreeInConsole = false;
     }
     
     public int getWidth() {
@@ -90,16 +95,12 @@ public class FunctionTreeGenModel extends GenModel {
         setGenState("Creating new canvas...");
         canvas = new Canvas(width, height);
         /**
-         * The filename contains the seed and the depth which both can be used to create the same random tree again
+         * The filename contains the seed and the depth which both can 
+         * be used to create the same random tree again.
+         * "rft" is the split mark and at the same time to recocnize "my" files
          */
         filename = this.seed + "rft" + this.depth; 
         
-        /*
-        canvas.setOnMouseMoved((MouseEvent event) -> {
-            System.out.println(event.getSceneX());
-            System.out.println(event.getSceneY());
-        });
-        */
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
@@ -108,8 +109,9 @@ public class FunctionTreeGenModel extends GenModel {
         
         FunctionTreeNode rootNode = FunctionTree.createFunctionTree(depth, rand);
         
-        //-- print the tree to the console for debug resons
-        rootNode.print();
+        if (this.showTreeInConsole) {
+            rootNode.print();
+        }    
         
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
@@ -121,6 +123,28 @@ public class FunctionTreeGenModel extends GenModel {
 
         setGenState("Drawing random arts...");
   
+    }
+    
+    public void createMany() {
+        
+        
+        for (int i=0; i<500; i++) {
+            rand = new Random(this.seed+i);
+            canvas = new Canvas(width, height);
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+            FunctionTreeNode rootNode = FunctionTree.createFunctionTree(depth, rand);
+            
+            for (int x=0; x<width; x++) {
+                for (int y=0; y<height; y++) {
+                    double[] args = {(double)x/(double)width, (double)y/(double)height};
+                    Color c = Color.hsb(FunctionTree.calcFunctionTree(rootNode, args) * 360, 1, 1);
+                    gc.getPixelWriter().setColor(x,y,c);
+            }
+                
+            this.saveImage(String.valueOf(this.seed+i) + "rft" + String.valueOf(depth));
+        }
+            
+        }
     }
 
 }
