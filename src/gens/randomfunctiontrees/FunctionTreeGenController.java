@@ -1,17 +1,13 @@
 package gens.randomfunctiontrees;
 
-import gens.basicexample1.*;
 import general.GenController;
 import general.GenModel;
 import java.io.File;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 /**
@@ -21,22 +17,20 @@ import javafx.stage.FileChooser;
  */
 public class FunctionTreeGenController extends GenController {
 
-    @FXML private TextField textFieldWidth;  
-    @FXML private TextField textFieldHeight;
-    @FXML private TextField textFieldSeed;
-    @FXML private TextField textFieldDepth;
-    @FXML private ComboBox<String> comboColorGeneration;     
-    @FXML private Button buttonOpenFile;  
-    
+    @FXML private TextField width;  
+    @FXML private TextField height;
+    @FXML private TextField seed;
+    @FXML private TextField depth;
+    @FXML private ComboBox<String> colorGeneration;     
+    @FXML private Button openFile;  
+    @FXML private CheckBox createMany;
+    @FXML private TextField howManySeeds;
+    @FXML private Button generateMany;
+    @FXML private Button buttonGenerate;
+    @FXML private CheckBox showTreeInConsole;
     
     FunctionTreeGenModel model;
 
-    
-
-
-   
-
-    
     
     
     @Override
@@ -59,25 +53,20 @@ public class FunctionTreeGenController extends GenController {
         
         model = new FunctionTreeGenModel();
 
-
-        
-        
-        
-        
         
         // display values from model
-        textFieldWidth.textProperty().setValue(String.valueOf(model.getWidth()));
-        textFieldHeight.textProperty().setValue(String.valueOf(model.getHeight()));
-        textFieldSeed.textProperty().setValue(String.valueOf(model.getSeed()));        
-        textFieldDepth.textProperty().setValue(String.valueOf(model.getDepth())); 
+        width.textProperty().setValue(String.valueOf(model.getWidth()));
+        height.textProperty().setValue(String.valueOf(model.getHeight()));
+        seed.textProperty().setValue(String.valueOf(model.getSeed()));        
+        depth.textProperty().setValue(String.valueOf(model.getDepth())); 
         
         // change model if user changes something on the view
        
-        textFieldSeed.focusedProperty().addListener((observableBoolean,
+        seed.focusedProperty().addListener((observableBoolean,
                 oldValue, newValue) -> {
             if (!newValue){ // newValue=0 means no focus -> if no longer focused
                 try {
-                    String s = textFieldSeed.textProperty().getValue();
+                    String s = seed.textProperty().getValue();
                     int h = Integer.parseInt(s);
                     model.setSeed(h);
                 } catch (IllegalArgumentException ex) {
@@ -86,7 +75,7 @@ public class FunctionTreeGenController extends GenController {
                     // from SimpleGenModel.setHeight(..)
                     
                     // display last valid value for width from model
-                    textFieldSeed.textProperty().setValue(
+                    seed.textProperty().setValue(
                             String.valueOf(model.getSeed()));
                     showInputAlert("Seed requires an integer value between 1"+
                             " and 32000.");
@@ -94,11 +83,11 @@ public class FunctionTreeGenController extends GenController {
             }
         });        
         
-        textFieldWidth.focusedProperty().addListener((observableBoolean,
+        width.focusedProperty().addListener((observableBoolean,
                 oldValue, newValue) -> {
             if (!newValue){ // newValue=0 means no focus -> if no longer focused
                 try {
-                    String s = textFieldWidth.textProperty().getValue();
+                    String s = width.textProperty().getValue();
                     int w = Integer.parseInt(s);
                     model.setWidth(w);
                 } catch (IllegalArgumentException ex) {
@@ -107,7 +96,7 @@ public class FunctionTreeGenController extends GenController {
                     // from SimpleGenModel.setWidth(..)
                     
                     // display last valid value for width from model
-                    textFieldWidth.textProperty().setValue(
+                    width.textProperty().setValue(
                             String.valueOf(model.getWidth()));
                     showInputAlert("Width requires an integer value between 1" +
                             " and 500.");
@@ -115,11 +104,11 @@ public class FunctionTreeGenController extends GenController {
             }
         });
 
-        textFieldHeight.focusedProperty().addListener((observableBoolean,
+        height.focusedProperty().addListener((observableBoolean,
                 oldValue, newValue) -> {
             if (!newValue){ // newValue=0 means no focus -> if no longer focused
                 try {
-                    String s = textFieldHeight.textProperty().getValue();
+                    String s = height.textProperty().getValue();
                     int h = Integer.parseInt(s);
                     model.setHeight(h);
                 } catch (IllegalArgumentException ex) {
@@ -128,7 +117,7 @@ public class FunctionTreeGenController extends GenController {
                     // from SimpleGenModel.setHeight(..)
                     
                     // display last valid value for width from model
-                    textFieldHeight.textProperty().setValue(
+                    height.textProperty().setValue(
                             String.valueOf(model.getHeight()));
                     showInputAlert("Heigth requires an integer value between 1"+
                             " and 500.");
@@ -136,11 +125,11 @@ public class FunctionTreeGenController extends GenController {
             }
         });
 
-        textFieldDepth.focusedProperty().addListener((observableBoolean,
+        depth.focusedProperty().addListener((observableBoolean,
                 oldValue, newValue) -> {
             if (!newValue){ // newValue=0 means no focus -> if no longer focused
                 try {
-                    String s = textFieldDepth.textProperty().getValue();
+                    String s = depth.textProperty().getValue();
                     int h = Integer.parseInt(s);
                     model.setDepth(h);
                 } catch (IllegalArgumentException ex) {
@@ -149,21 +138,46 @@ public class FunctionTreeGenController extends GenController {
                     // from SimpleGenModel.setHeight(..)
                     
                     // display last valid value for width from model
-                    textFieldDepth.textProperty().setValue(String.valueOf(model.getHeight()));
+                    depth.textProperty().setValue(String.valueOf(model.getHeight()));
                     showInputAlert("Depth requires an integer value between 1 and 10.");
                 }
             }
         });        
         
+ 
+
+        createMany.selectedProperty().addListener(
+            (observableBoolean, oldValue, newValue) -> {
+                if (newValue) {
+                    howManySeeds.setDisable(false);
+                    generateMany.setVisible(true);
+                    buttonGenerate.setVisible(false);
+                }
+                else {
+                    howManySeeds.setDisable(true);
+                    generateMany.setVisible(false);
+                    buttonGenerate.setVisible(true);                   
+                }
+                System.out.println(oldValue);
+                System.out.println(newValue);
+            }
+   
+        );
+        
+
+    }
+    
+    @FXML
+    public void generateMany(){
 
     }
     
     public void openFileDialog() {
-
+    
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(buttonOpenFile.getScene().getWindow());
+        File file = fileChooser.showOpenDialog(openFile.getScene().getWindow());
 
         try {
             int seed = Integer.parseInt(file.getName().split("\\.")[0].split("rft")[0]);
@@ -172,8 +186,8 @@ public class FunctionTreeGenController extends GenController {
             model.setSeed(seed);
             model.setDepth(depth);
             
-            textFieldSeed.textProperty().setValue(String.valueOf(model.getSeed()));        
-            textFieldDepth.textProperty().setValue(String.valueOf(model.getDepth())); 
+            this.seed.textProperty().setValue(String.valueOf(model.getSeed()));        
+            this.depth.textProperty().setValue(String.valueOf(model.getDepth())); 
         }
         catch (Exception ex)  {
             showInputAlert("File Name has to be in the form {$seed}rft{$depth}.png like 2411rft7.png for example.");

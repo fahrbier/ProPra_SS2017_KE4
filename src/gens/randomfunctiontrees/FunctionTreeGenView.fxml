@@ -7,11 +7,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.*?>
+
 
 
 
@@ -27,90 +25,123 @@
                    <Insets left="10.0" right="10.0"/>
                 </GridPane.margin>
              </Label>
-             <Label text="A random integer to start the function tree generation. (enter 1-32000)"  wrapText="true" prefWidth="150.0" GridPane.rowIndex="1" GridPane.columnIndex="2">
-                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
+             <Label text="A random integer to start the function tree generation. (enter 1-32000)"  wrapText="true" prefWidth="300.0" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" top="10.0" /></GridPane.margin>
              </Label> 
-             <Label text="Depth" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.valignment="TOP">
+             
+             <Label text="how many" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.valignment="TOP">
                 <GridPane.margin>
                    <Insets left="10.0" right="10.0"/>
                 </GridPane.margin>
              </Label>
-             <Label text="How deep should the random function tree be? (enter 1-10)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="2" GridPane.columnIndex="2">
-                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
-             </Label>                           
-             <Label text="Width" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0"/>
-               </GridPane.margin>
-            </Label>
-             <Label text="Set the width of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="3" GridPane.columnIndex="2">
-                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
-             </Label> 
-            <Label text="Height" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0"/>
-               </GridPane.margin>
-            </Label>
-             <Label text="Set the height of the canvas. (enter 1-500)" wrapText="true" prefWidth="150.0" GridPane.rowIndex="4" GridPane.columnIndex="2">
-                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
-             </Label> 
-
-            <Label text="Color generation" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0"/>
-               </GridPane.margin>
-            </Label>
-             <Label text="How should the color be generated and which component is dependent to the randomized function tree" wrapText="true" prefWidth="150.0" GridPane.rowIndex="5" GridPane.columnIndex="2">
-                <GridPane.margin><Insets left="10.0" right="10.0" /></GridPane.margin>
+             <Label text="If selected, enter a number up to 500 to create that many images all with a random function tree, depending on a different seed. It's a simple increment starting from whatever you entered into seed."  wrapText="true" prefWidth="300.0" GridPane.rowIndex="2" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" top="10.0"/></GridPane.margin>
              </Label>              
              
              
-            <Button fx:id="buttonOpenFile" onAction="#openFileDialog" text="_Open existing Image" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.valignment="TOP" >
+             
+             <Label text="Depth" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.valignment="TOP">
                 <GridPane.margin>
-                  <Insets top="5.0" />
-                  <Insets right="10.0" />
+                   <Insets left="10.0" right="10.0"/>
+                </GridPane.margin>
+             </Label>
+             <Label text="How deep should the random function tree be? (enter 1-10)" wrapText="true" prefWidth="300.0" GridPane.rowIndex="3" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" top="10.0" /></GridPane.margin>
+             </Label>       
+             
+                                                     
+             <Label text="Width" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0"/>
+               </GridPane.margin>
+            </Label>
+             <Label text="Set the width of the canvas. (enter 1-500)" wrapText="true" prefWidth="300.0" GridPane.rowIndex="4" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" top="10.0" /></GridPane.margin>
+             </Label> 
+             
+             
+            <Label text="Height" GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0"/>
+               </GridPane.margin>
+            </Label>
+             <Label text="Set the height of the canvas. (enter 1-500)" wrapText="true" prefWidth="300.0" GridPane.rowIndex="5" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" top="10.0" /></GridPane.margin>
+             </Label> 
+
+
+            <Label text="Color generation" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0"/>
+               </GridPane.margin>
+            </Label>
+             <Label text="How should the color be generated and which component is dependent to the randomized function tree" wrapText="true" prefWidth="300.0" GridPane.rowIndex="6" GridPane.columnIndex="2">
+                <GridPane.margin><Insets left="10.0" right="10.0" top="10.0" /></GridPane.margin>
+             </Label>              
+             
+             
+             
+             
+             
+             
+            <Button fx:id="openFile" onAction="#openFileDialog" text="_Open existing Image" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.valignment="TOP" >
+                <GridPane.margin>
+                  <Insets right="10.0" top="10.0" />
                </GridPane.margin>           
             </Button> 
              
-            <TextField fx:id="textFieldSeed" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="seed" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="10.0" />
+                  <Insets right="10.0" top="5.0" />
                </GridPane.margin>
             </TextField>  
+            
+            
+            <HBox alignment="CENTER_LEFT" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                <children>
+                    <CheckBox fx:id="createMany"/>
+                    <TextField fx:id="howManySeeds" disable="true"/>                    
+                </children>  
+                <GridPane.margin>
+                    <Insets right="10.0" top="5.0" />
+                </GridPane.margin>          
+            </HBox>
+            
+            
+
+
                       
-            <TextField fx:id="textFieldDepth" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="depth" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="5.0" />
-                  <Insets right="10.0" />
+                  <Insets right="10.0" top="5.0"/>
                </GridPane.margin>
             </TextField> 
             
-            <TextField fx:id="textFieldWidth" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="width" GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                   <Insets top="5.0" />
-                   <Insets right="10.0" />
+                   <Insets right="10.0" top="5.0"/>
                </GridPane.margin>
             </TextField>
             
-            <TextField fx:id="textFieldHeight" GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <TextField fx:id="height" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets top="5.0" />
-                  <Insets right="10.0" />
+                  <Insets right="10.0" top="5.0" />
                </GridPane.margin>
             </TextField>
             
-            <ComboBox fx:id="comboColorGeneration" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <ComboBox fx:id="colorGeneration" GridPane.rowIndex="6" GridPane.columnIndex="1" GridPane.valignment="TOP">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="HSB - H randomized" />
+                        <String fx:value="HSB - S randomized" />
+                        <String fx:value="HSB - B randomized" />
                         <String fx:value="RGB - R randomized" />
                         <String fx:value="RGB - G randomized" />
                         <String fx:value="RGB - B randomized" />
                     </FXCollections>
                 </items>
                 <GridPane.margin>
-                  <Insets top="5.0" />
-                  <Insets right="10.0" />
+                  <Insets right="10.0" top="5.0"/>
                 </GridPane.margin>
             </ComboBox>
             
@@ -119,10 +150,27 @@
       </GridPane>
    </center>
    <bottom>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <children>
-             <Button fx:id="buttonGenerate" onAction="#handleGenerate" text="_Generate" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />
-         </children>
-      </AnchorPane>
+       <VBox>
+           <children>
+               
+           
+                <AnchorPane BorderPane.alignment="CENTER">
+                   <children>
+                       <Button fx:id="buttonGenerate" onAction="#handleGenerate" text="_Generate one and show" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />
+                       <Button fx:id="generateMany" onAction="#generateMany" text="_Generate many and save" visible="false" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />
+                   </children>
+                </AnchorPane>
+
+                <AnchorPane BorderPane.alignment="CENTER">
+                   <children>
+                         <CheckBox fx:id="showTreeInConsole" text="Show random function tree in console."/>
+                   </children>
+                </AnchorPane> 
+                
+                          
+            </children>   
+       </VBox>
+
+
    </bottom>
 </BorderPane>
