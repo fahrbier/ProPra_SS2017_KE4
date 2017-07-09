@@ -1,6 +1,9 @@
 package gens.randomfunctiontrees;
 
 import general.GenModel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Random;
 
 import javafx.scene.canvas.Canvas;
@@ -20,6 +23,29 @@ public class FunctionTreeGenModel extends GenModel {
         return "Randon Function Tree Generator";
     }
    
+    /**
+     * Define some boundaries for the fields of this model
+     * 
+     */
+    public static final int MAX_SEED = 32000;
+    public static final int MAX_MORE_SEED = 500;
+    public static final int MAX_HEIGHT = 500;
+    public static final int MAX_WIDTH = 500;
+    public static final int MAX_DEPTH = 10;
+  
+    public FunctionTreeGenModel(Random rand, int width, int height, int seed, int depth, int thisManySeeds, boolean showTreeInConsole, String colorGeneration) {
+       
+        this.rand = rand;
+        this.width = width;
+        this.height = height;
+        this.seed = seed;
+        this.depth = depth;
+        this.thisManySeeds = thisManySeeds;
+        this.showTreeInConsole = showTreeInConsole;
+        this.colorGeneration = colorGeneration;
+        
+    }
+    
     private Random rand;
     
     private int width; 
@@ -30,15 +56,17 @@ public class FunctionTreeGenModel extends GenModel {
     private int thisManySeeds;
     private boolean showTreeInConsole;
     
-    private final int treeDepthForOutput = 1;
+    private String colorGeneration;
+    
     
     public FunctionTreeGenModel() {
-        width = 5;
-        height = 5;
+        width = 150;
+        height = 150;
         seed = 2411;
-        depth = 4;
+        depth = 7;
         thisManySeeds = 1;
         showTreeInConsole = false;
+        colorGeneration = "HSB - H randomized";
     }
     
     public int getWidth() {
@@ -57,8 +85,20 @@ public class FunctionTreeGenModel extends GenModel {
         return depth;
     }  
     
+    public int getThisManySeeds() {
+        return thisManySeeds;
+    }
+    
+    public boolean getShowTreeInCosole() {
+        return showTreeInConsole;
+    }
+    
+    public String getColorGeneration() {
+        return colorGeneration;
+    }
+    
     public void setWidth(int value) {
-        if (value >  0 && value <= 500) {
+        if (value >  0 && value <= FunctionTreeGenModel.MAX_WIDTH) {
             width = value;
         } else {
             throw new IllegalArgumentException();
@@ -66,7 +106,7 @@ public class FunctionTreeGenModel extends GenModel {
     }
 
     public void setHeight(int value) {
-        if (value >  0 && value <= 500) {
+        if (value >  0 && value <= FunctionTreeGenModel.MAX_HEIGHT) {
             height = value;
         } else {
             throw new IllegalArgumentException();
@@ -74,20 +114,39 @@ public class FunctionTreeGenModel extends GenModel {
     }    
  
     public void setSeed(int value) {
-        if (value >  0 && value <= 32000) {
+        if (value >  0 && value <= FunctionTreeGenModel.MAX_SEED) {
             seed = value;
         } else {
             throw new IllegalArgumentException();
         }
-    }     
+    }   
+    
+    public void setThisManySeeds(int value) {
+        /**
+         * Don't watch only the range, make also sure, that we stay in the boundaries for the seed itself
+         */
+        if ( (value >  0 && value <= FunctionTreeGenModel.MAX_MORE_SEED) && seed + value <= FunctionTreeGenModel.MAX_SEED) {
+            thisManySeeds = value;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }       
 
     public void setDepth(int value) {
-        if (value >  0 && value <= 10) {
+        if (value >  0 && value <= FunctionTreeGenModel.MAX_DEPTH) {
             depth = value;
         } else {
             throw new IllegalArgumentException();
         }
     }  
+    
+    public void setColorGeneration(String value) {
+        colorGeneration = value;
+    }  
+    
+    public void setTreeInConsole(boolean value) {
+        showTreeInConsole = value;
+    }
     
     @Override
     public void generate() {     
@@ -99,7 +158,7 @@ public class FunctionTreeGenModel extends GenModel {
          * be used to create the same random tree again.
          * "rft" is the split mark and at the same time to recocnize "my" files
          */
-        filename = this.seed + "rft" + this.depth; 
+        filename = this.seed + "rft" + this.depth + "rft" + this.colorGeneration; 
         
         setGenState("Filling image background...");
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -116,8 +175,7 @@ public class FunctionTreeGenModel extends GenModel {
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
                 double[] args = {(double)x/(double)width, (double)y/(double)height};
-                Color c = Color.hsb(FunctionTree.calcFunctionTree(rootNode, args) * 360, 1, 1);
-                gc.getPixelWriter().setColor(x,y,c);
+                gc.getPixelWriter().setColor(x,y,this.getColor(rootNode, args));
             }
         }
 
@@ -127,8 +185,7 @@ public class FunctionTreeGenModel extends GenModel {
     
     public void createMany() {
         
-        
-        for (int i=0; i<500; i++) {
+        for (int i=0; i < this.thisManySeeds; i++) {
             rand = new Random(this.seed+i);
             canvas = new Canvas(width, height);
             GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -137,14 +194,47 @@ public class FunctionTreeGenModel extends GenModel {
             for (int x=0; x<width; x++) {
                 for (int y=0; y<height; y++) {
                     double[] args = {(double)x/(double)width, (double)y/(double)height};
-                    Color c = Color.hsb(FunctionTree.calcFunctionTree(rootNode, args) * 360, 1, 1);
-                    gc.getPixelWriter().setColor(x,y,c);
+                    gc.getPixelWriter().setColor(x,y,this.getColor(rootNode, args));
+                }
             }
                 
             this.saveImage(String.valueOf(this.seed+i) + "rft" + String.valueOf(depth));
-        }
+        
             
         }
+    }
+    
+    private Color getColor(FunctionTreeNode rootNode, double[] args) {
+        
+        Color c;
+        
+        double componentPercent = FunctionTree.calcFunctionTree(rootNode, args); //-- a value between 0..1
+        double hsbComponentAngle = componentPercent * 360;
+        int rgbComponent = (int)Math.round(componentPercent * 255);
+        
+        switch (this.colorGeneration) {
+            default:
+            case "HSB - H randomized" :
+                c = Color.hsb(hsbComponentAngle, 1, 1);
+                break;
+            case "HSB - S randomized" :
+                c = Color.hsb(1, componentPercent, 1);
+                break;
+            case "HSB - B randomized" :
+                c = Color.hsb(1, 1, componentPercent);
+                break;
+            case "RGB - R randomized" :                     
+                c = Color.rgb(rgbComponent, 255, 255);
+                break;
+            case "RGB - G randomized" :
+                c = Color.rgb(255, rgbComponent, 255);
+                break;
+            case "RGB - B randomized" :
+                c = Color.rgb(255, 255, rgbComponent);
+                break;                         
+        }
+        
+        return c;
     }
 
 }

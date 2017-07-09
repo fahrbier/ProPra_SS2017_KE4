@@ -53,12 +53,16 @@ public class FunctionTreeGenController extends GenController {
         
         model = new FunctionTreeGenModel();
 
+
+        
         
         // display values from model
         width.textProperty().setValue(String.valueOf(model.getWidth()));
         height.textProperty().setValue(String.valueOf(model.getHeight()));
         seed.textProperty().setValue(String.valueOf(model.getSeed()));        
         depth.textProperty().setValue(String.valueOf(model.getDepth())); 
+        howManySeeds.textProperty().setValue(String.valueOf(model.getThisManySeeds()));        
+        colorGeneration.getSelectionModel().select(model.getColorGeneration());
         
         // change model if user changes something on the view
        
@@ -77,11 +81,30 @@ public class FunctionTreeGenController extends GenController {
                     // display last valid value for width from model
                     seed.textProperty().setValue(
                             String.valueOf(model.getSeed()));
-                    showInputAlert("Seed requires an integer value between 1"+
-                            " and 32000.");
+                    showInputAlert("Seed requires an integer value between 1 and " + FunctionTreeGenModel.MAX_SEED);
                 }
             }
-        });        
+        }); 
+        
+        
+        howManySeeds.focusedProperty().addListener((observableBoolean,
+                oldValue, newValue) -> {
+            if (!newValue){ // newValue=0 means no focus -> if no longer focused
+                try {
+                    String s = howManySeeds.textProperty().getValue();
+                    int h = Integer.parseInt(s);
+                    model.setThisManySeeds(h);
+                } catch (IllegalArgumentException ex) {
+                    // catches both the possible NumberFormatException from
+                    // parseInt() as well as the possible IllegalArgumentExcept.
+                    // from SimpleGenModel.setHeight(..)
+                    
+                    // display last valid value for width from model
+                    howManySeeds.textProperty().setValue(String.valueOf(model.getThisManySeeds()));
+                    showInputAlert("How many seed requires an integer value between 1 and " + FunctionTreeGenModel.MAX_MORE_SEED + ". Please make also sure, that you stay in the boundaries of the seed in general.");
+                }
+            }
+        });
         
         width.focusedProperty().addListener((observableBoolean,
                 oldValue, newValue) -> {
@@ -98,8 +121,7 @@ public class FunctionTreeGenController extends GenController {
                     // display last valid value for width from model
                     width.textProperty().setValue(
                             String.valueOf(model.getWidth()));
-                    showInputAlert("Width requires an integer value between 1" +
-                            " and 500.");
+                    showInputAlert("Width requires an integer value between 1 and " + FunctionTreeGenModel.MAX_WIDTH);
                 }
             }
         });
@@ -119,8 +141,7 @@ public class FunctionTreeGenController extends GenController {
                     // display last valid value for width from model
                     height.textProperty().setValue(
                             String.valueOf(model.getHeight()));
-                    showInputAlert("Heigth requires an integer value between 1"+
-                            " and 500.");
+                    showInputAlert("Heigth requires an integer value between 1 and "  + FunctionTreeGenModel.MAX_HEIGHT );
                 }
             }
         });
@@ -139,7 +160,7 @@ public class FunctionTreeGenController extends GenController {
                     
                     // display last valid value for width from model
                     depth.textProperty().setValue(String.valueOf(model.getHeight()));
-                    showInputAlert("Depth requires an integer value between 1 and 10.");
+                    showInputAlert("Depth requires an integer value between 1 and " + FunctionTreeGenModel.MAX_DEPTH );
                 }
             }
         });        
@@ -158,10 +179,22 @@ public class FunctionTreeGenController extends GenController {
                     generateMany.setVisible(false);
                     buttonGenerate.setVisible(true);                   
                 }
-                System.out.println(oldValue);
-                System.out.println(newValue);
+
             }
    
+        );
+        
+        colorGeneration.valueProperty().addListener(
+            (observableBoolean, oldValue, newValue) -> {
+                model.setColorGeneration(newValue);
+            }
+   
+        );        
+        
+        showTreeInConsole.selectedProperty().addListener(
+            (observableBoolean, oldValue, newValue) -> {
+                model.setTreeInConsole(newValue);
+            }
         );
         
 
@@ -169,7 +202,7 @@ public class FunctionTreeGenController extends GenController {
     
     @FXML
     public void generateMany(){
-
+        model.createMany();
     }
     
     public void openFileDialog() {
@@ -182,12 +215,15 @@ public class FunctionTreeGenController extends GenController {
         try {
             int seed = Integer.parseInt(file.getName().split("\\.")[0].split("rft")[0]);
             int depth = Integer.parseInt(file.getName().split("\\.")[0].split("rft")[1]);
+            String colorCreation = file.getName().split("\\.")[0].split("rft")[2];
             
             model.setSeed(seed);
             model.setDepth(depth);
+            model.setColorGeneration(colorCreation);
             
             this.seed.textProperty().setValue(String.valueOf(model.getSeed()));        
             this.depth.textProperty().setValue(String.valueOf(model.getDepth())); 
+            colorGeneration.getSelectionModel().select(model.getColorGeneration());
         }
         catch (Exception ex)  {
             showInputAlert("File Name has to be in the form {$seed}rft{$depth}.png like 2411rft7.png for example.");
