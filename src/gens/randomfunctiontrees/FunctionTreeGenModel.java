@@ -198,7 +198,7 @@ public class FunctionTreeGenModel extends GenModel {
                 }
             }
                 
-            this.saveImage(String.valueOf(this.seed+i) + "rft" + String.valueOf(depth));
+            this.saveImage(String.valueOf(this.seed+i) + "rft" + String.valueOf(depth) + "rft" + this.colorGeneration);
         
             
         }
