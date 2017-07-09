@@ -221,7 +221,7 @@ public class AppController {
         /**
          * Modification for KE4
          * filename is retrieved from the respective model and can be null, 
-         * therwise take this name instead of the default which is passed into this method
+         * otherwise take this name instead of the default which is passed into this method
          */                
         if (filename != null) {
             fileName = filename;    
