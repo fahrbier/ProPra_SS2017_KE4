@@ -146,12 +146,15 @@ public abstract class GenModel {
      * @param filename The filename under which the canvas should be saved
      */
     public void saveImage(String filename){
-        WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
-        File file = new File(filename);
+        
+        String home = System.getProperty("user.home");
+        File file = new File(home + File.separator + "Pictures" + File.separator + "randomfunctiontrees" + File.separator + filename + ".png");
+        
+   
         try {
             WritableImage writableImage = canvas.snapshot(null, null);
-            RenderedImage renderedImage = 
-                    SwingFXUtils.fromFXImage(writableImage, null);
+            RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+            System.out.println(file);
             ImageIO.write(renderedImage, "png", file);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
